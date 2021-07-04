@@ -117,22 +117,22 @@ public class ScaleUtils
 		return ret < 0 ? -MINIMUM_LIMB_MOTION_SCALE : MINIMUM_LIMB_MOTION_SCALE;
 	}
 	
-	public static final float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)
+	public static float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)
 	{
 		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getWidthScale(entity, tickDelta), depth, entity, tickDelta);
 	}
 	
-	public static final float modifyProjectionMatrixDepthByHeight(float depth, @Nullable Entity entity, float tickDelta)
+	public static float modifyProjectionMatrixDepthByHeight(float depth, @Nullable Entity entity, float tickDelta)
 	{
 		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getHeightScale(entity, tickDelta), depth, entity, tickDelta);
 	}
 	
-	public static final float modifyProjectionMatrixDepth(float depth, @Nullable Entity entity, float tickDelta)
+	public static float modifyProjectionMatrixDepth(float depth, @Nullable Entity entity, float tickDelta)
 	{
 		return entity == null ? depth : modifyProjectionMatrixDepth(Math.min(ScaleUtils.getWidthScale(entity, tickDelta), ScaleUtils.getHeightScale(entity, tickDelta)), depth, entity, tickDelta);
 	}
 	
-	public static final float modifyProjectionMatrixDepth(float scale, float depth, Entity entity, float tickDelta)
+	public static float modifyProjectionMatrixDepth(float scale, float depth, Entity entity, float tickDelta)
 	{
 		if (scale < 1.0F)
 		{
@@ -236,10 +236,17 @@ public class ScaleUtils
 			}
 		}
 	}
-	
+
+	public static final float CAP = 16;
+
 	public static float getWidthScale(Entity entity)
 	{
-		return getWidthScale(entity, 1.0F);
+		return getWidthScale(entity,false);
+	}
+
+	public static float getWidthScale(Entity entity,boolean capped)
+	{
+		return capped ? Math.min(getWidthScale(entity, 1.0F),CAP) : getWidthScale(entity, 1.0F);
 	}
 	
 	public static float getWidthScale(Entity entity, float tickDelta)
@@ -251,7 +258,12 @@ public class ScaleUtils
 	{
 		return getHeightScale(entity, 1.0F);
 	}
-	
+
+	public static float getHeightScale(Entity entity,boolean capped)
+	{
+		return capped ? Math.min(getHeightScale(entity, 1.0F),CAP) : getHeightScale(entity, 1.0F);
+	}
+
 	public static float getHeightScale(Entity entity, float tickDelta)
 	{
 		return getTypedScale(entity, ScaleType.HEIGHT, tickDelta);
@@ -264,7 +276,7 @@ public class ScaleUtils
 	
 	public static float getMotionScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.MOTION, PehkuiConfig.COMMON.scaledMotion::get, tickDelta);
+		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.MOTION, PehkuiConfig.COMMON.scaledMotion, tickDelta));
 	}
 	
 	public static float getReachScale(Entity entity)
@@ -274,7 +286,7 @@ public class ScaleUtils
 	
 	public static float getReachScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
+		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.REACH, PehkuiConfig.COMMON.scaledReach, tickDelta));
 	}
 	
 	public static float getAttackScale(Entity entity)
@@ -284,7 +296,7 @@ public class ScaleUtils
 	
 	public static float getAttackScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.ATTACK, PehkuiConfig.COMMON.scaledAttack::get, tickDelta);
+		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.ATTACK, PehkuiConfig.COMMON.scaledAttack, tickDelta));
 	}
 	
 	public static float getDefenseScale(Entity entity)
@@ -294,7 +306,7 @@ public class ScaleUtils
 	
 	public static float getDefenseScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.DEFENSE, PehkuiConfig.COMMON.scaledDefense::get, tickDelta);
+		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.DEFENSE, PehkuiConfig.COMMON.scaledDefense, tickDelta));
 	}
 	
 	public static float getHealthScale(Entity entity)
@@ -304,7 +316,7 @@ public class ScaleUtils
 	
 	public static float getHealthScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.HEALTH, PehkuiConfig.COMMON.scaledHealth::get, tickDelta);
+		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.HEALTH, PehkuiConfig.COMMON.scaledHealth, tickDelta));
 	}
 	
 	public static float getDropScale(Entity entity)
@@ -314,7 +326,7 @@ public class ScaleUtils
 	
 	public static float getDropScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.DROPS, PehkuiConfig.COMMON.scaledItemDrops::get, tickDelta);
+		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.DROPS, PehkuiConfig.COMMON.scaledItemDrops, tickDelta));
 	}
 	
 	public static float getProjectileScale(Entity entity)
@@ -324,7 +336,7 @@ public class ScaleUtils
 	
 	public static float getProjectileScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.PROJECTILES, PehkuiConfig.COMMON.scaledProjectiles::get, tickDelta);
+		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.PROJECTILES, PehkuiConfig.COMMON.scaledProjectiles, tickDelta));
 	}
 	
 	public static float getExplosionScale(Entity entity)
@@ -334,7 +346,7 @@ public class ScaleUtils
 	
 	public static float getExplosionScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.EXPLOSIONS, PehkuiConfig.COMMON.scaledExplosions::get, tickDelta);
+		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.EXPLOSIONS, PehkuiConfig.COMMON.scaledExplosions, tickDelta));
 	}
 	
 	public static float getConfigurableTypedScale(Entity entity, ScaleType type, Supplier<Boolean> config, float tickDelta)

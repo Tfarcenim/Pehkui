@@ -106,7 +106,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 			return;
 		}
 		
-		final float width = ScaleUtils.getWidthScale(self);
+		final float width = ScaleUtils.getWidthScale(self,true);
 		
 		if (width > 1.0F && !ScaleUtils.isAboveCollisionThreshold(self))
 		{

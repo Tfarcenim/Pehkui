@@ -4,7 +4,7 @@ plugins {
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.2.12"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
-	id "com.modrinth.minotaur" version "1.1.0"
+	//id "com.modrinth.minotaur" version "1.1.0"
 }
 
 repositories {
@@ -13,10 +13,10 @@ repositories {
 		name = "Fabric"
 		url = "https://maven.fabricmc.net/"
 	}
-	maven {
-		name = "TerraformersMC"
-		url = "https://maven.terraformersmc.com/"
-	}
+	//maven {
+	//	name = "TerraformersMC"
+	//	url = "https://maven.terraformersmc.com/"
+	//}
 	maven {
 		name = "CurseForge"
 		url = "https://minecraft.curseforge.com/api/maven"
@@ -93,10 +93,10 @@ dependencies {
 			}
 		}
 		
-		if(project.hasProperty("modmenu_version")) {
-			modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
-			modRuntime "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
-		}
+		//if(project.hasProperty("modmenu_version")) {
+	//		modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
+//			modRuntime "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
+//		}
 	}
 }
 
@@ -177,7 +177,7 @@ publishing {
 	}
 }
 
-githubRelease {
+/*githubRelease {
 	token project.hasProperty("github_releases_token") ? project.github_releases_token : ""
 	if(project.hasProperty("github_repository_owner")) {
 		owner project.github_repository_owner
@@ -195,7 +195,7 @@ githubRelease {
 	releaseName project.version
 	
 	releaseAssets = files("${project.buildDir}/libs/${archivesBaseName}-${version}.jar", "${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
-}
+}*/
 
 if(project.hasProperty("fabric_version")) {
 	ext.changelog_fabric_version = project.fabric_version
@@ -232,7 +232,7 @@ String generateHTMLChangelog() {
 	return changelog_text
 }
 
-curseforge {
+/*curseforge {
 	if(project.hasProperty("curseforge_api_key")) {
 		apiKey = project.properties.curseforge_api_key
 	}
@@ -307,9 +307,9 @@ curseforge {
 			forgeGradleIntegration = false
 		}
 	}
-}
+}*/
 
-import com.modrinth.minotaur.TaskModrinthUpload
+/*import com.modrinth.minotaur.TaskModrinthUpload
 
 task publishModrinth (type: TaskModrinthUpload) {
 	if(project.hasProperty("modrinth_token")) {
@@ -336,4 +336,4 @@ task publishModrinth (type: TaskModrinthUpload) {
 		uploadFile = remapJar
 		addFile sourcesJar
 	}
-}
+}*/
