@@ -237,7 +237,7 @@ public class ScaleUtils
 		}
 	}
 
-	public static final float CAP = 16;
+	public static float CAP = 16;
 
 	public static float getWidthScale(Entity entity)
 	{

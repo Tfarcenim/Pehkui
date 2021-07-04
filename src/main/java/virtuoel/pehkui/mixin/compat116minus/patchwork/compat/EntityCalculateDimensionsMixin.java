@@ -25,9 +25,12 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(value = Entity.class, priority = 1010)
 public abstract class EntityCalculateDimensionsMixin
 {
-	@Shadow World world;
-	@Shadow @Final @Mutable EntityType<?> type;
-	@Shadow abstract void move(MovementType type, Vec3d movement);
+	@Shadow
+	public World world;
+	@Shadow @Final @Mutable
+	private EntityType<?> type;
+	@Shadow
+	public abstract void move(MovementType type, Vec3d movement);
 	
 	@Inject(method = "calculateDimensions", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.AFTER, ordinal = 1, target = "Lnet/minecraft/entity/Entity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
 	private void onCalculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, @Coerce Object sizeEvent, EntityDimensions current, Box box)
