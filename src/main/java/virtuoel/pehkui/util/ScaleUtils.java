@@ -286,7 +286,7 @@ public class ScaleUtils
 	
 	public static float getReachScale(Entity entity, float tickDelta)
 	{
-		return Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.REACH, PehkuiConfig.COMMON.scaledReach, tickDelta));
+		return Math.max(1,Math.min(CAP,getConfigurableTypedScale(entity, ScaleType.REACH, PehkuiConfig.COMMON.scaledReach, tickDelta)));
 	}
 	
 	public static float getAttackScale(Entity entity)
